@@ -6,6 +6,9 @@ use App\Controller\AppController;
 use Cake\Event\Event; // added.
 use Exception; // added.
 
+use Cake\Filesystem\Folder;
+use Cake\Filesystem\File;
+
 class AuctionController extends AuctionBaseController
 {
 	// デフォルトテーブルを使わない
@@ -33,7 +36,7 @@ class AuctionController extends AuctionBaseController
 	{
 		// ページネーションでBiditemsを取得
 		$auction = $this->paginate('Biditems', [
-			'order' =>['endtime'=>'desc'], 
+			'order' =>['endtime'=>'desc'],
 			'limit' => 10]);
 		$this->set(compact('auction'));
 	}
@@ -56,7 +59,7 @@ class AuctionController extends AuctionBaseController
 			$bidinfo->biditem_id = $id;
 			// 最高金額のBidrequestを検索
 			$bidrequest = $this->Bidrequests->find('all', [
-				'conditions'=>['biditem_id'=>$id], 
+				'conditions'=>['biditem_id'=>$id],
 				'contain' => ['Users'],
 				'order'=>['price'=>'desc']])->first();
 			// Bidrequestが得られた時の処理
@@ -68,11 +71,11 @@ class AuctionController extends AuctionBaseController
 				$this->Bidinfo->save($bidinfo);
 			}
 			// Biditemのbidinfoに$bidinfoを設定
-			$biditem->bidinfo = $bidinfo;		
+			$biditem->bidinfo = $bidinfo;
 		}
 		// Bidrequestsからbiditem_idが$idのものを取得
 		$bidrequests = $this->Bidrequests->find('all', [
-			'conditions'=>['biditem_id'=>$id], 
+			'conditions'=>['biditem_id'=>$id],
 			'contain' => ['Users'],
 			'order'=>['price'=>'desc']])->toArray();
 		// オブジェクト類をテンプレート用に設定
@@ -90,6 +93,23 @@ class AuctionController extends AuctionBaseController
 			$biditem = $this->Biditems->patchEntity($biditem, $this->request->getData());
 			// $biditemを保存する
 			if ($this->Biditems->save($biditem)) {
+				// 保存したid取得
+				$file_id = $biditem->id;
+				// file拡張子を取得
+				$file = new File($biditem['image_path']);
+				$ext = $file->ext();
+				// file_pathを作成
+				$dir = realpath(WWW_ROOT . "/img/itemImage");
+				$file_path = $dir . '/' . $file_id . '.' . $ext;
+				// file_pathをdbへ保存
+				$data = array(
+					'id' => $file_id,
+					'image_path' => $file_path,
+				);
+				$this->Biditems->save($data);
+				// 画像アップロード
+				move_uploaded_file($biditem['tmp_name'], $file_path);
+
 				// 成功時のメッセージ
 				$this->Flash->success(__('保存しました。'));
 				// トップページ（index）に移動
@@ -128,7 +148,7 @@ class AuctionController extends AuctionBaseController
 		$biditem = $this->Biditems->get($biditem_id);
 		$this->set(compact('bidrequest', 'biditem'));
 	}
-	
+
 	// 落札者とのメッセージ
 	public function msg($bidinfo_id = null)
 	{
@@ -163,7 +183,7 @@ class AuctionController extends AuctionBaseController
 	{
 		// 自分が落札したBidinfoをページネーションで取得
 		$bidinfo = $this->paginate('Bidinfo', [
-			'conditions'=>['Bidinfo.user_id'=>$this->Auth->user('id')], 
+			'conditions'=>['Bidinfo.user_id'=>$this->Auth->user('id')],
 			'contain' => ['Users', 'Biditems'],
 			'order'=>['created'=>'desc'],
 			'limit' => 10])->toArray();
@@ -175,7 +195,7 @@ class AuctionController extends AuctionBaseController
 	{
 		// 自分が出品したBiditemをページネーションで取得
 		$biditems = $this->paginate('Biditems', [
-			'conditions'=>['Biditems.user_id'=>$this->Auth->user('id')], 
+			'conditions'=>['Biditems.user_id'=>$this->Auth->user('id')],
 			'contain' => ['Users', 'Bidinfo'],
 			'order'=>['created'=>'desc'],
 			'limit' => 10])->toArray();
