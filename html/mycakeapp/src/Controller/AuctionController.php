@@ -102,10 +102,9 @@ class AuctionController extends AuctionBaseController
 				$dir = realpath(WWW_ROOT . "/img/itemImage");
 				$file_path = $dir . '/' . $file_id . '.' . $ext;
 				// file_pathをdbへ保存
-				$data = array(
-					'id' => $file_id,
-					'image_path' => $file_path,
-				);
+				$data = $this->Biditems->patchEntity($biditem, [
+					'image_path' => $file_path
+				]);
 				$this->Biditems->save($data);
 				// 画像アップロード
 				move_uploaded_file($biditem['tmp_name'], $file_path);
