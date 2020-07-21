@@ -35,6 +35,14 @@
             <td><?= $this->Number->format($biditem->id) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Information') ?></th>
+            <td><?= h($biditem->information) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><? __('Image') ?></th>
+            <td><?= $this->Html->image($biditem->image_path, ['width' => '300px', 'height' => '200px']) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Endtime') ?></th>
             <td><?= h($biditem->endtime) ?></td>
         </tr>
@@ -45,6 +53,12 @@
         <tr>
             <th scope="row"><?= __('Finished') ?></th>
             <td><?= $biditem->finished ? __('Yes') : __('No'); ?></td>
+        </tr>
+        <tr>
+            <th scope="row">カウントダウン</th>
+            <td id="countdown-unit">
+                <script src="WWW_ROOT/js/countdown.js"></script>
+            </td>
         </tr>
     </table>
     <div class="related">

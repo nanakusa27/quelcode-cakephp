@@ -1,3 +1,11 @@
+<?php
+
+use Composer\Package\Link;
+
+$end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
+$end_json = json_encode($end);
+
+?>
 <h2>「<?= $biditem->name ?>」の情報</h2>
 <table class="vertical-table">
 <tr>
@@ -13,6 +21,14 @@
 	<td><?= $this->Number->format($biditem->id) ?></td>
 </tr>
 <tr>
+    <th scope="row">詳細情報</th>
+    <td><?= h($biditem->information) ?></td>
+</tr>
+<tr>
+	<th scope="row">商品画像</th>
+	<td><?= $this->Html->image($biditem->image_path, ['width' => '300px', 'height' => '200px']) ?></td>
+</tr>
+<tr>
 	<th scope="row">終了時間</th>
 	<td><?= h($biditem->endtime) ?></td>
 </tr>
@@ -23,6 +39,12 @@
 <tr>
 	<th scope="row"><?= __('終了した？') ?></th>
 	<td><?= $biditem->finished ? __('Yes') : __('No'); ?></td>
+</tr>
+<tr>
+	<th scope="row">カウントダウン</th>
+	<td id="countdown-unit">
+		<script src="WWW_ROOT/js/countdown.js"></script>
+	</td>
 </tr>
 </table>
 <div class="related">
