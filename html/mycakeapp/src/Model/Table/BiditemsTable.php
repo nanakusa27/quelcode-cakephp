@@ -84,10 +84,10 @@ class BiditemsTable extends Table
             ->maxLength('image_path', 1000)
             ->requirePresence('image_path', 'create')
             ->allowEmptyString('image_path')
-            // ->add('image_ext', ['list' => [
-            //     'rule' => ['inList', ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG']],
-            //     'message' => 'jpg, JPG, jpeg, JPEG, png, PNGのいずれかを選択してください',
-            // ]])
+            ->add('image_path', ['list' => [
+                'rule' => ['inList', ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG']],
+                'message' => 'jpg, JPG, jpeg, JPEG, png, PNGのいずれかを選択してください',
+            ]])
             ;
 
         $validator
