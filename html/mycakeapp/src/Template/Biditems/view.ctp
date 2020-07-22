@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <th scope="row"><? __('Image') ?></th>
-            <td><?= $this->Html->image($biditem->image_path, ['width' => '300px', 'height' => '200px']) ?></td>
+            <td><?= $this->Html->image($biditem->image_path, array('width' => '200')) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Endtime') ?></th>
