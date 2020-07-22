@@ -90,7 +90,15 @@ class AuctionController extends AuctionBaseController
 		// POST送信時の処理
 		if ($this->request->is('post')) {
 			// $biditemにフォームの送信内容を反映
-			$biditem = $this->Biditems->patchEntity($biditem, $this->request->getData());
+			$img = $this->request->getData('image_path');
+			$biditem = $this->Biditems->patchEntity($biditem, [
+				'user_id' => $this->request->getData('user_id'),
+				'name' => $this->request->getData('name'),
+				'information' => $this->request->getData('information'),
+				'image_path' => $img['name'],
+				'finished' => $this->request->getData('finished'),
+				'endtime' => $this->request->getData('endtime')
+			]);
 			// $biditemを保存する
 			if ($this->Biditems->save($biditem)) {
 				// 保存したid取得
@@ -99,15 +107,15 @@ class AuctionController extends AuctionBaseController
 				$file = new File($biditem['image_path']);
 				$ext = $file->ext();
 				// file_pathを作成
-				$dir = realpath(WWW_ROOT . "/img/itemImage");
-				$file_path = $dir . '/' . $file_id . '.' . $ext;
+				$file_path = '/img/itemImage/' . $file_id . '.' . $ext;
+				$dir = WWW_ROOT . $file_path;
 				// file_pathをdbへ保存
 				$data = $this->Biditems->patchEntity($biditem, [
 					'image_path' => $file_path
 				]);
-				$this->Biditems->save($data);
+				$this->Biditems->save($data, false);
 				// 画像アップロード
-				move_uploaded_file($biditem['tmp_name'], $file_path);
+				move_uploaded_file($img['tmp_name'], $dir);
 
 				// 成功時のメッセージ
 				$this->Flash->success(__('保存しました。'));
