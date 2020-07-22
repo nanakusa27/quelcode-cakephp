@@ -26,7 +26,7 @@ $end_json = json_encode($end);
 </tr>
 <tr>
 	<th scope="row">商品画像</th>
-	<td><?= $this->Html->image($biditem->image_path, ['width' => '300px', 'height' => '200px']) ?></td>
+	<td><?= $this->Html->image($biditem->image_path, ['width' => '200px']) ?></td>
 </tr>
 <tr>
 	<th scope="row">終了時間</th>
@@ -43,7 +43,7 @@ $end_json = json_encode($end);
 <tr>
 	<th scope="row">カウントダウン</th>
 	<td id="countdown-unit">
-		<script src="WWW_ROOT/js/countdown.js"></script>
+		<script src= "/js/countdown.js"></script>
 	</td>
 </tr>
 </table>
