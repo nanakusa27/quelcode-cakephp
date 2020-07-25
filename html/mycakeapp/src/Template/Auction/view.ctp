@@ -5,6 +5,8 @@ use Composer\Package\Link;
 $end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
 $end_json = json_encode($end);
 
+$this->Html->script('countdown');
+
 ?>
 <h2>「<?= $biditem->name ?>」の情報</h2>
 <table class="vertical-table">
@@ -42,9 +44,7 @@ $end_json = json_encode($end);
 </tr>
 <tr>
 	<th scope="row">カウントダウン</th>
-	<td id="countdown-unit">
-		<script src= "/js/countdown.js"></script>
-	</td>
+	<td id="countdown-unit"></td>
 </tr>
 </table>
 <div class="related">

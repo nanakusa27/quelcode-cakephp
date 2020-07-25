@@ -12,7 +12,7 @@ function countdown() {
 
     // 現在から期日日までの差を取得
     currentTime = new Date();
-    period = endTime.getTime() - currentTime.getTime();
+    period = goal.getTime() - currentTime.getTime();
 
     // 期限を過ぎていないとき
     if (period >= 0) {
@@ -41,7 +41,7 @@ function countdown() {
         insert += '<span class="h">' + cHour + '</span>' + ":";
         insert += '<span class="m">' + cMinute + '</span>' + ":";
         insert += '<span class="s">' + cSecond + '</span>' + ":";
-        insert += '<span class="f">' + cFlame + '</span>' + ":";
+        insert += '<span class="f">' + cFlame + '</span>' + "";
         document.getElementById('countdown-unit') . innerHTML = insert;
 
         // カウントダウンの処理を再実行
