@@ -2,8 +2,11 @@
 var end = '<?php echo $end; ?>';
 var endTime = new Date(end);
 
+var current = '<?php echo $current; ?>';
+var currentTime = new Date(current);
+
 // 使用する変数の宣言
-var currentTime, period,
+var period,
     cDay, cHour, cMinute, cSecond,
     insert = "";
 
@@ -11,7 +14,6 @@ var currentTime, period,
 function countdown() {
 
     // 現在から期日日までの差を取得
-    currentTime = new Date();
     period = endTime.getTime() - currentTime.getTime();
 
     // 期限を過ぎていないとき
@@ -32,16 +34,12 @@ function countdown() {
         cSecond = Math.floor(period / (1000));
         period -= (cSecond * (1000));
 
-        // フレーム
-        cFlame = Math.floor(period / (10));
-
         // 残りの日数の書き換え
         insert = "";
         insert += '<span class="d">' + cDay + '</span>' + "日";
         insert += '<span class="h">' + cHour + '</span>' + ":";
         insert += '<span class="m">' + cMinute + '</span>' + ":";
-        insert += '<span class="s">' + cSecond + '</span>' + ":";
-        insert += '<span class="f">' + cFlame + '</span>' + "";
+        insert += '<span class="s">' + cSecond + '</span>';
         document.getElementById('countdown-unit') . innerHTML = insert;
 
         // カウントダウンの処理を再実行
