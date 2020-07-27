@@ -1,10 +1,8 @@
 // 期限の取得
 var endTime = new Date(end);
 
-var currentTime = new Date(current);
-
 // 使用する変数の宣言
-var period,
+var currentTime,period,
     cDay, cHour, cMinute, cSecond,
     insert = "";
 
@@ -12,6 +10,7 @@ var period,
 function countdown() {
 
     // 現在から期日日までの差を取得
+    currentTime = new Date();
     period = endTime.getTime() - currentTime.getTime();
 
     // 期限を過ぎていないとき
