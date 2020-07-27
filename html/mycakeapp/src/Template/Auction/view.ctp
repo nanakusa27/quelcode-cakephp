@@ -3,7 +3,6 @@
 use Composer\Package\Link;
 
 $end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
-$current = date("Y/m/d H:i:s");
 
 ?>
 <script type="text/javascript">var end ="<?php echo $end ?>";</script>
