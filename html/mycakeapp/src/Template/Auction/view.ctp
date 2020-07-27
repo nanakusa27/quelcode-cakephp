@@ -2,8 +2,8 @@
 
 use Composer\Package\Link;
 
-echo $end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
-echo $current = date("Y/m/d H:i:s");
+$end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
+$current = date("Y/m/d H:i:s");
 
 ?>
 <h2>「<?= $biditem->name ?>」の情報</h2>
