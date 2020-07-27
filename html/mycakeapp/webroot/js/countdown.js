@@ -1,5 +1,5 @@
 // 期限の取得
-var end = JSON.parse('<?php echo $end_json; ?>');
+var end = '<?php echo $end; ?>';
 var endTime = new Date(end);
 
 // 使用する変数の宣言

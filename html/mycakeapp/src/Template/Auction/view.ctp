@@ -3,9 +3,8 @@
 use Composer\Package\Link;
 
 $end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
-$end_json = json_encode($end);
 
-$this->Html->script('countdown');
+echo $this->Html->script('countdown');
 
 ?>
 <h2>「<?= $biditem->name ?>」の情報</h2>
