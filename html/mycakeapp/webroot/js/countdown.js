@@ -1,8 +1,6 @@
 // 期限の取得
-var end = '<?php echo $end; ?>';
 var endTime = new Date(end);
 
-var current = '<?php echo $current; ?>';
 var currentTime = new Date(current);
 
 // 使用する変数の宣言
