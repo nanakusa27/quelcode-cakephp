@@ -12,7 +12,7 @@ function countdown() {
 
     // 現在から期日日までの差を取得
     currentTime = new Date();
-    period = goal.getTime() - currentTime.getTime();
+    period = endTime.getTime() - currentTime.getTime();
 
     // 期限を過ぎていないとき
     if (period >= 0) {
