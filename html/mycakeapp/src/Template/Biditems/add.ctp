@@ -17,12 +17,16 @@
     </ul>
 </nav>
 <div class="biditems form large-9 medium-8 columns content">
-    <?= $this->Form->create($biditem) ?>
+    <?= $this->Form->create($biditem, ['type' => 'file']) ?>
     <fieldset>
         <legend><?= __('Add Biditem') ?></legend>
         <?php
             echo $this->Form->control('user_id', ['options' => $users]);
             echo $this->Form->control('name');
+            echo "Information";
+            echo $this->Form->textarea('information');
+            echo "Image";
+            echo $this->Form->file('image_path');
             echo $this->Form->control('finished');
             echo $this->Form->control('endtime');
         ?>

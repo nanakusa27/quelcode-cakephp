@@ -1,34 +1,56 @@
+<?php
+
+use Composer\Package\Link;
+
+$end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
+
+?>
+<script type="text/javascript">var end ="<?php echo $end ?>";</script>
+
 <h2>「<?= $biditem->name ?>」の情報</h2>
 <table class="vertical-table">
-<tr>
-	<th class="small" scope="row">出品者</th>
-	<td><?= $biditem->has('user') ? $biditem->user->username : '' ?></td>
-</tr>
-<tr>
-	<th scope="row">商品名</th>
-	<td><?= h($biditem->name) ?></td>
-</tr>
-<tr>
-	<th scope="row">商品ID</th>
-	<td><?= $this->Number->format($biditem->id) ?></td>
-</tr>
-<tr>
-	<th scope="row">終了時間</th>
-	<td><?= h($biditem->endtime) ?></td>
-</tr>
-<tr>
-	<th scope="row">投稿時間</th>
-	<td><?= h($biditem->created) ?></td>
-</tr>
-<tr>
-	<th scope="row"><?= __('終了した？') ?></th>
-	<td><?= $biditem->finished ? __('Yes') : __('No'); ?></td>
-</tr>
+	<tr>
+		<th class="small" scope="row">出品者</th>
+		<td><?= $biditem->has('user') ? $biditem->user->username : '' ?></td>
+	</tr>
+	<tr>
+		<th scope="row">商品名</th>
+		<td><?= h($biditem->name) ?></td>
+	</tr>
+	<tr>
+		<th scope="row">商品ID</th>
+		<td><?= $this->Number->format($biditem->id) ?></td>
+	</tr>
+	<tr>
+		<th scope="row">詳細情報</th>
+		<td><?= h($biditem->information) ?></td>
+	</tr>
+	<tr>
+		<th scope="row">商品画像</th>
+		<td><?= $this->Html->image($biditem->image_path, ['width' => '200px']) ?></td>
+	</tr>
+	<tr>
+		<th scope="row">終了時間</th>
+		<td><?= h($biditem->endtime) ?></td>
+	</tr>
+	<tr>
+		<th scope="row">投稿時間</th>
+		<td><?= h($biditem->created) ?></td>
+	</tr>
+	<tr>
+		<th scope="row"><?= __('終了した？') ?></th>
+		<td><?= $biditem->finished ? __('Yes') : __('No'); ?></td>
+	</tr>
+	<tr>
+		<th scope="row">カウントダウン</th>
+		<td id="countdown-unit"></td>
+	</tr>
+	<?= $this->Html->script('countdown'); ?>
 </table>
 <div class="related">
 	<h4><?= __('落札情報') ?></h4>
 	<?php if (!empty($biditem->bidinfo)): ?>
-	<table cellpadding="0" cellspacing="0">
+		<table cellpadding="0" cellspacing="0">
 	<tr>
 		<th scope="col">落札者</th>
 		<th scope="col">落札金額</th>

@@ -74,6 +74,23 @@ class BiditemsTable extends Table
             ->notEmptyString('name');
 
         $validator
+            ->scalar('information')
+            ->maxLength('information', 1000)
+            ->requirePresence('information', 'create')
+            ->notEmptyString('information');
+
+        $validator
+            ->scalar('image_path')
+            ->maxLength('image_path', 1000)
+            ->requirePresence('image_path', 'create')
+            ->notEmptyString('image_path')
+            ->add('image_path', ['fileExtension' => [
+                'rule' => ['extension', ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG']],
+                'message' => 'jpg, JPG, jpeg, JPEG, png, PNGのいずれかのファイルを選択してください',
+            ]])
+            ;
+
+        $validator
             ->boolean('finished')
             ->requirePresence('finished', 'create')
             ->notEmptyString('finished');
