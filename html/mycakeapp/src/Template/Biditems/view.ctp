@@ -3,7 +3,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Biditem $biditem
  */
+$end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
 ?>
+<script type="text/javascript">var end ="<?php echo $end ?>";</script>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
@@ -56,9 +58,8 @@
         </tr>
         <tr>
             <th scope="row">カウントダウン</th>
-            <td id="countdown-unit">
-                <script src="WWW_ROOT/js/countdown.js"></script>
-            </td>
+            <td id="countdown-unit"></td>
+            <?= $this->Html->script('countdown'); ?>
         </tr>
     </table>
     <div class="related">
