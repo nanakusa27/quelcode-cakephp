@@ -3,6 +3,9 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
+use Cake\Filesystem\Folder;
+use Cake\Filesystem\File;
+
 /**
  * Biditems Controller
  *
@@ -52,8 +55,27 @@ class BiditemsController extends AppController
     {
         $biditem = $this->Biditems->newEntity();
         if ($this->request->is('post')) {
-            $biditem = $this->Biditems->patchEntity($biditem, $this->request->getData());
+            $img = $this->request->getData('image_path');
+			$biditem = $this->Biditems->patchEntity($biditem, [
+				'user_id' => $this->request->getData('user_id'),
+				'name' => $this->request->getData('name'),
+				'information' => $this->request->getData('information'),
+				'image_path' => $img['name'],
+				'finished' => $this->request->getData('finished'),
+				'endtime' => $this->request->getData('endtime')
+			]);
             if ($this->Biditems->save($biditem)) {
+                $file_id = $biditem->id;
+				$file = new File($biditem['image_path']);
+				$ext = $file->ext();
+				$file_path = '/img/itemImage/' . $file_id . '.' . $ext;
+				$dir = WWW_ROOT . $file_path;
+				$data = $this->Biditems->patchEntity($biditem, [
+					'image_path' => $file_path
+				]);
+				$this->Biditems->save($data, false);
+				// 画像アップロード
+				move_uploaded_file($img['tmp_name'], $dir);
                 $this->Flash->success(__('The biditem has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
