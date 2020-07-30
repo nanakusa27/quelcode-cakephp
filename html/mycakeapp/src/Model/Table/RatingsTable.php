@@ -71,7 +71,9 @@ class RatingsTable extends Table
         $validator
             ->integer('rating')
             ->requirePresence('rating', 'create')
-            ->notEmptyString('rating');
+            ->notEmptyString('rating')
+            ->nonNegativeInteger('rating')
+            ->lessThanOrEqual('rating', 5);
 
         $validator
             ->scalar('comment')
