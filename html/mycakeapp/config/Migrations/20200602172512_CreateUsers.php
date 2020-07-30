@@ -28,6 +28,14 @@ class CreateUsers extends AbstractMigration
             'limit' => 20,
             'null' => false,
         ]);
+        $table->addColumn('created', 'datetime', [
+            'default' => null,
+            'null' => false,
+        ]);
+        $table->addColumn('modified', 'datetime', [
+            'default' => null,
+            'null' => false,
+        ]);
         $table->create();
     }
 }
