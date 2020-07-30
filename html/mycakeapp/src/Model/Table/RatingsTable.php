@@ -42,15 +42,15 @@ class RatingsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('TargetUsers', [
+        $this->belongsTo('Users', [
             'foreignKey' => 'target_user_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('ReviewerUsers', [
+        $this->belongsTo('Users', [
             'foreignKey' => 'reviewer_user_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('Deliveryinfos', [
+        $this->belongsTo('Deliveryinfo', [
             'foreignKey' => 'deliveryinfo_id',
             'joinType' => 'INNER',
         ]);
