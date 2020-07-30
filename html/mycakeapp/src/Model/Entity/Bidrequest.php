@@ -31,6 +31,7 @@ class Bidrequest extends Entity
         'user_id' => true,
         'price' => true,
         'created' => true,
+        'modified' => true,
         'biditem' => true,
         'user' => true,
     ];

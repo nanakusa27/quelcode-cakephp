@@ -31,6 +31,7 @@ class Bidmessage extends Entity
         'user_id' => true,
         'message' => true,
         'created' => true,
+        'modified' => true,
         'bidinfo' => true,
         'user' => true,
     ];
