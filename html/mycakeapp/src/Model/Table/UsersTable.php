@@ -39,6 +39,8 @@ class UsersTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('Timestamp');
+
         $this->hasMany('Bidinfo', [
             'foreignKey' => 'user_id',
         ]);
@@ -51,10 +53,10 @@ class UsersTable extends Table
         $this->hasMany('Bidrequests', [
             'foreignKey' => 'user_id',
         ]);
-        $this->belongTo('Ratings', [
+        $this->hasMany('Ratings', [
             'foreignKey' => 'target_user_id',
         ]);
-        $this->belongTo('Ratings', [
+        $this->hasMany('Ratings', [
             'foreignKey' => 'reviewer_user_id',
         ]);
     }
