@@ -6,7 +6,7 @@
     </tr>
     <?php if (is_null($rating_comments)): ?>
         <tr>
-            <th>コメント</th>
+            <th scope="row">コメント</th>
             <td>まだコメントがありません。</td>
         </tr>
     <?php else: ?>
