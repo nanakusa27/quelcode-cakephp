@@ -25,6 +25,8 @@ class AuctionController extends AuctionBaseController
 		$this->loadModel('Bidrequests');
 		$this->loadModel('Bidinfo');
 		$this->loadModel('Bidmessages');
+		$this->loadModel('Deliveryinfo');
+        $this->loadModel('Ratings');
 		// ログインしているユーザー情報をauthuserに設定
 		$this->set('authuser', $this->Auth->user());
 		// レイアウトをauctionに変更
@@ -207,5 +209,30 @@ class AuctionController extends AuctionBaseController
 			'order'=>['created'=>'desc'],
 			'limit' => 10])->toArray();
 		$this->set(compact('biditems'));
+	}
+
+	// 落札後やり取り
+	public function deliveryinfo()
+	{
+		$deliveryinfo = $this->Deliveryinfo->newEntity();
+
+		$user_id = $this->Auth->user('id');
+		if ($user_id == $deliveryinfo->bidinfo->user_id or $user_id == $deliveryinfo->bidinfo->biditems->user_id) {
+
+			if ($this->request->is('post')) {
+				$deliveryinfo = $this->Deliveryinfo->patchEntity($deliveryinfo, $this->request->getData());
+				if ($this->Deliveryinfo->save($deliveryinfo)) {
+					$this->Flash->success('データを保存しました。');
+
+					return $this->redirect(['action' => 'index']);
+				}
+				$this->Flash->error('データの保存に失敗しました。');
+			} else {
+
+			}
+			$this->set('deliveryinfo');
+		} else {
+			return $this->redirect(['action' => 'index']);
+		}
 	}
 }
