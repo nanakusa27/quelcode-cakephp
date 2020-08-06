@@ -93,9 +93,9 @@ class RatingsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['target_user_id'], 'TargetUsers'));
-        $rules->add($rules->existsIn(['reviewer_user_id'], 'ReviewerUsers'));
-        $rules->add($rules->existsIn(['deliveryinfo_id'], 'Deliveryinfos'));
+        $rules->add($rules->existsIn(['target_user_id'], 'Users'));
+        $rules->add($rules->existsIn(['reviewer_user_id'], 'Users'));
+        $rules->add($rules->existsIn(['deliveryinfo_id'], 'Deliveryinfo'));
 
         return $rules;
     }

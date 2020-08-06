@@ -38,20 +38,20 @@ class RatingController extends AuctionController
 
         $username = $this->Users->get($user_id)->username;
 
-        $rating_avg = 'まだ評価がありません';
         $ratings = $this->Ratings->find();
-        $rating_sql = $this->Ratings->find()
+
+        $rating_avg = $this->Ratings->find()
             ->select(['rating_avg' => $ratings->func()->avg('rating')])
-            ->where(['target_user_id' => $user_id]);
-        $raging_avg = $rating_sql->first();
+            ->where(['target_user_id' => $user_id])
+            ->first();
 
         $comments = $this->Ratings->find()
             ->select('comment')
             ->where(['target_user_id' => $user_id])
-            ->limit(25);
-        $rating_comments = $comments->first();
+            ->limit(25)
+            ->toArray();
 
-        $this->set(compact('rating_avg', 'rating_comments', 'username'));
+        $this->set(compact('rating_avg', 'comments', 'username'));
     }
 
     /**
@@ -61,16 +61,32 @@ class RatingController extends AuctionController
      */
     public function ratingadd()
     {
+        $deliveryinfo_id = $this->request->query['deliveryinfo_id'];
+        $deliveryinfo = $this->Deliveryinfo->get($deliveryinfo_id);
+        $bidinfo = $this->Bidinfo->get($deliveryinfo->bidinfo_id);
+        $biditem = $this->Biditems->get($bidinfo->biditem_id);
+
+        switch ($this->Auth->user('id'))
+        {
+            case $bidinfo->user_id:
+                $target_user_id = $biditem->user_id;
+                break;
+            case $biditem->user_id:
+                $target_user_id = $bidinfo->user_id;
+                break;
+        }
+
         $rating = $this->Ratings->newEntity();
         if ($this->request->is('post')) {
             $rating = $this->Ratings->patchEntity($rating, $this->request->getData());
             if ($this->Ratings->save($rating)) {
                 $this->Flash->success('データを保存しました。');
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Auction', 'action' => 'index']);
             }
             $this->Flash->error('データの保存に失敗しました。');
         }
+        $this->set(compact('rating', 'target_user_id', 'deliveryinfo'));
     }
 
 }
