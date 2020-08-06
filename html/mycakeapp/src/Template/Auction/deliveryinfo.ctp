@@ -53,14 +53,14 @@ use Composer\Package\Link;
             ?>
         <?php else: ?>
             <tr>
-                <th scope="row"></th>
-                <td>まだ発送していません。</td>
+                <th scope="row">発送しましたか？</th>
+                <td>いいえ</td>
             </tr>
         <?php endif; ?>
     <?php else: ?>
         <tr>
-            <th scope="row"></th>
-            <td class="red">発送しました。</td>
+            <th scope="row">発送しましたか？</th>
+            <td class="red">はい、発送しました。</td>
         </tr>
         <!-- まだ受け取っていないかつ発送したかつ落札者の場合に受取ボタンを表示 -->
         <?php if ($deliveryinfo->is_received == 0): ?>
@@ -74,14 +74,14 @@ use Composer\Package\Link;
                 ?>
             <?php else: ?>
                 <tr>
-                    <th scope="row"></th>
-                    <td>まだ受け取っていません</td>
+                    <th scope="row">受け取りましたか？</th>
+                    <td>いいえ</td>
                 </tr>
             <?php endif; ?>
         <?php else: ?>
             <tr>
-                <th scope="row"></th>
-                <td class="red">受け取りました。</td>
+                <th scope="row">受け取りましたか？</th>
+                <td class="red">はい、受け取りました。</td>
             </tr>
             <?php if (empty($rating)): ?>
                 <h4>
