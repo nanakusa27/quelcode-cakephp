@@ -105,7 +105,8 @@ $end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
 			<h4>
 				<?= $this->Html->link('落札後やりとり', [
 					'controller' => 'Auction',
-					'action' => 'deliveryinfo'
+					'action' => 'deliveryinfo',
+					'biditem' => $biditem->id,
 					]);
 					?>
 			</h4>

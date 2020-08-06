@@ -204,7 +204,7 @@ class AuctionController extends AuctionBaseController
 	{
 		// 自分が出品したBiditemをページネーションで取得
 		$biditems = $this->paginate('Biditems', [
-			'conditions'=>['Biditems.user_id'=>$this->Auth->user('id')],
+			'conditions' => ['Biditems.user_id'=>$this->Auth->user('id')],
 			'contain' => ['Users', 'Bidinfo'],
 			'order'=>['created'=>'desc'],
 			'limit' => 10])->toArray();
@@ -214,25 +214,45 @@ class AuctionController extends AuctionBaseController
 	// 落札後やり取り
 	public function deliveryinfo()
 	{
-		$deliveryinfo = $this->Deliveryinfo->newEntity();
+		$biditem_id = $this->request->query['biditem'];
+		$biditem = $this->Biditems->get($biditem_id);
+
+		$bidinfo = $this->Bidinfo->find('all', [
+			'conditions' => ['biditem_id' => $biditem_id]
+		])->first();
+
+		$deliveryinfo = $this->Deliveryinfo->find('all', [
+			'conditions' => ['bidinfo_id' => $bidinfo->id]
+		])->first();
 
 		$user_id = $this->Auth->user('id');
-		if ($user_id == $deliveryinfo->bidinfo->user_id or $user_id == $deliveryinfo->bidinfo->biditems->user_id) {
 
-			if ($this->request->is('post')) {
-				$deliveryinfo = $this->Deliveryinfo->patchEntity($deliveryinfo, $this->request->getData());
-				if ($this->Deliveryinfo->save($deliveryinfo)) {
-					$this->Flash->success('データを保存しました。');
+		if (!empty($deliveryinfo)) {
+			$rating = $this->Ratings->find()
+				->where(['reviewer_user_id' => $user_id, 'deliveryinfo_id' => $deliveryinfo->id])
+				->first();
+			$this->set(compact('rating'));
+		}
 
-					return $this->redirect(['action' => 'index']);
+		if ($biditem->finished == 1) {
+			if ($user_id == $biditem->user_id || $user_id == $bidinfo->user_id) {
+				if ($this->request->is('post')) {
+					if (empty($deliveryinfo)) {
+						$deliveryinfo = $this->Deliveryinfo->newEntity();
+						$deliveryinfo = $this->Deliveryinfo->patchEntity($deliveryinfo, $this->request->getData());
+					} else {
+						$deliveryinfo->is_sent = $this->request->getData('is_sent');
+						$deliveryinfo->is_received = $this->request->getData('is_received');
+					}
+					if ($this->Deliveryinfo->save($deliveryinfo)) {
+						$this->Flash->success('データを保存しました。');
+
+						return $this->redirect(['action' => 'deliveryinfo', '?' => ['biditem' => $biditem_id]]);
+					}
+					$this->Flash->error('データの保存に失敗しました。');
 				}
-				$this->Flash->error('データの保存に失敗しました。');
-			} else {
-
+				$this->set(compact('deliveryinfo', 'biditem', 'bidinfo'));
 			}
-			$this->set('deliveryinfo');
-		} else {
-			return $this->redirect(['action' => 'index']);
 		}
 	}
 }
