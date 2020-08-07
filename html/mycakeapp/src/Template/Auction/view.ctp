@@ -100,7 +100,7 @@ $end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
 	<p><?='※入札は、終了しました。' ?></p>
 	<?php endif; ?>
 	<!-- 落札後やりとりのリンクを落札者、出品者のみに表示 -->
-	<?php if ($biditem->finished == 1) :?>
+	<?php if ($biditem->finished == 1 && !empty($biditem->bidinfo)) :?>
 		<?php if ($authuser['id'] == $biditem->user_id || $authuser['id'] == $biditem->bidinfo->user_id): ?>
 			<h4>
 				<?= $this->Html->link('落札後やりとり', [
