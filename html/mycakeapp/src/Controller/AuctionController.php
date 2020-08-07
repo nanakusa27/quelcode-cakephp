@@ -183,7 +183,7 @@ class AuctionController extends AuctionBaseController
 		$bidmsgs = $this->Bidmessages->find('all',[
 			'conditions'=>['bidinfo_id'=>$bidinfo_id],
 			'contain' => ['Users'],
-			'order'=>['created'=>'desc']]);
+			'order'=>['Bidmessages.created'=>'desc']]);
 		$this->set(compact('bidmsgs', 'bidinfo', 'bidmsg'));
 	}
 
