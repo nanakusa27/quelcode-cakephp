@@ -227,6 +227,10 @@ class AuctionController extends AuctionBaseController
 
 		$user_id = $this->Auth->user('id');
 
+		if (!($user_id == $biditem->user_id || $user_id == $bidinfo->user_id)){
+			return $this->redirect(['action' => 'index']);
+		}
+
 		if (!empty($deliveryinfo)) {
 			$rating = $this->Ratings->find()
 				->where(['reviewer_user_id' => $user_id, 'deliveryinfo_id' => $deliveryinfo->id])
