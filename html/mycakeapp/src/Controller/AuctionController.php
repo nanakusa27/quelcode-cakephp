@@ -219,17 +219,17 @@ class AuctionController extends AuctionBaseController
 
 		$bidinfo = $this->Bidinfo->find('all', [
 			'conditions' => ['biditem_id' => $biditem_id]
-		])->first();
+			])->first();
+
+		$user_id = $this->Auth->user('id');
+
+		if (!($user_id == $biditem->user_id || $user_id == $bidinfo->user_id) || empty($bidinfo)){
+			return $this->redirect(['action' => 'index']);
+		}
 
 		$deliveryinfo = $this->Deliveryinfo->find('all', [
 			'conditions' => ['bidinfo_id' => $bidinfo->id]
 		])->first();
-
-		$user_id = $this->Auth->user('id');
-
-		if (!($user_id == $biditem->user_id || $user_id == $bidinfo->user_id)){
-			return $this->redirect(['action' => 'index']);
-		}
 
 		if (!empty($deliveryinfo)) {
 			$rating = $this->Ratings->find()
