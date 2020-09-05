@@ -11,7 +11,11 @@ $end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
 <table class="vertical-table">
 	<tr>
 		<th class="small" scope="row">出品者</th>
-		<td><?= $biditem->has('user') ? $biditem->user->username : '' ?></td>
+		<td><?= $this->Html->link($biditem->has('user') ? $biditem->user->username : '', [
+			'controller' => 'Rating',
+			'action' => 'ratingview',
+			'user_id' => $biditem->user_id,
+		]) ?></td>
 	</tr>
 	<tr>
 		<th scope="row">商品名</th>
@@ -94,5 +98,18 @@ $end = $biditem->endtime->i18nFormat('YYYY/MM/dd HH:mm:ss');
 	<?php endif; ?>
 	<?php else: ?>
 	<p><?='※入札は、終了しました。' ?></p>
+	<?php endif; ?>
+	<!-- 落札後やりとりのリンクを落札者、出品者のみに表示 -->
+	<?php if ($biditem->finished == 1 && !empty($biditem->bidinfo)) :?>
+		<?php if ($authuser['id'] == $biditem->user_id || $authuser['id'] == $biditem->bidinfo->user_id): ?>
+			<h4>
+				<?= $this->Html->link('落札後やりとり', [
+					'controller' => 'Auction',
+					'action' => 'deliveryinfo',
+					'biditem' => $biditem->id,
+					]);
+					?>
+			</h4>
+		<?php endif; ?>
 	<?php endif; ?>
 </div>

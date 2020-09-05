@@ -4,18 +4,22 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Bidmessage Entity
+ * Deliveryinfo Entity
  *
  * @property int $id
  * @property int $bidinfo_id
- * @property int $user_id
- * @property string $message
+ * @property string $destination
+ * @property string $receiver_name
+ * @property string $receiver_tel
+ * @property bool $is_sent
+ * @property bool $is_received
  * @property \Cake\I18n\Time $created
+ * @property \Cake\I18n\Time $modified
  *
  * @property \App\Model\Entity\Bidinfo $bidinfo
- * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Rating[] $ratings
  */
-class Bidmessage extends Entity
+class Deliveryinfo extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -28,11 +32,14 @@ class Bidmessage extends Entity
      */
     protected $_accessible = [
         'bidinfo_id' => true,
-        'user_id' => true,
-        'message' => true,
+        'destination' => true,
+        'receiver_name' => true,
+        'receiver_tel' => true,
+        'is_sent' => true,
+        'is_received' => true,
         'created' => true,
         'modified' => true,
         'bidinfo' => true,
-        'user' => true,
+        'ratings' => true,
     ];
 }

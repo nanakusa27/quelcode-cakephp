@@ -25,3 +25,11 @@ table tr th.small {
 nav.sidebar {
 	background:#f6f6ff;
 }
+.rating {
+	font-size: 40px;
+	color: blue;
+	padding:0px 30px
+}
+.red {
+	color: red;
+}

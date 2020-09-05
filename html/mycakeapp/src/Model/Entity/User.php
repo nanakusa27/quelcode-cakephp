@@ -35,6 +35,8 @@ class User extends Entity
         'username' => true,
         'password' => true,
         'role' => true,
+        'created' => true,
+        'modified' => true,
         'bidinfo' => true,
         'biditems' => true,
         'bidmessages' => true,

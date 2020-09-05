@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class CreateBidmessages extends AbstractMigration
+class CreateRatings extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,19 +12,30 @@ class CreateBidmessages extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('bidmessages');
-        $table->addColumn('bidinfo_id', 'integer', [
+        $table = $this->table('ratings');
+        $table->addColumn('target_user_id', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,
         ]);
-        $table->addColumn('user_id', 'integer', [
+        $table->addColumn('reviewer_user_id', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,
         ]);
-        $table->addColumn('message', 'text', [
+        $table->addColumn('deliveryinfo_id', 'integer', [
             'default' => null,
+            'limit' => 11,
+            'null' => false,
+        ]);
+        $table->addColumn('rating', 'integer', [
+            'default' => null,
+            'limit' => 1,
+            'null' => false,
+        ]);
+        $table->addColumn('comment', 'string', [
+            'default' => null,
+            'limit' => 1000,
             'null' => false,
         ]);
         $table->addColumn('created', 'datetime', [

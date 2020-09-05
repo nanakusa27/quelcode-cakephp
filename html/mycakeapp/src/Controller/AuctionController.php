@@ -25,6 +25,8 @@ class AuctionController extends AuctionBaseController
 		$this->loadModel('Bidrequests');
 		$this->loadModel('Bidinfo');
 		$this->loadModel('Bidmessages');
+		$this->loadModel('Deliveryinfo');
+        $this->loadModel('Ratings');
 		// ログインしているユーザー情報をauthuserに設定
 		$this->set('authuser', $this->Auth->user());
 		// レイアウトをauctionに変更
@@ -181,7 +183,7 @@ class AuctionController extends AuctionBaseController
 		$bidmsgs = $this->Bidmessages->find('all',[
 			'conditions'=>['bidinfo_id'=>$bidinfo_id],
 			'contain' => ['Users'],
-			'order'=>['created'=>'desc']]);
+			'order'=>['Bidmessages.created'=>'desc']]);
 		$this->set(compact('bidmsgs', 'bidinfo', 'bidmsg'));
 	}
 
@@ -202,10 +204,59 @@ class AuctionController extends AuctionBaseController
 	{
 		// 自分が出品したBiditemをページネーションで取得
 		$biditems = $this->paginate('Biditems', [
-			'conditions'=>['Biditems.user_id'=>$this->Auth->user('id')],
+			'conditions' => ['Biditems.user_id'=>$this->Auth->user('id')],
 			'contain' => ['Users', 'Bidinfo'],
 			'order'=>['created'=>'desc'],
 			'limit' => 10])->toArray();
 		$this->set(compact('biditems'));
+	}
+
+	// 落札後やり取り
+	public function deliveryinfo()
+	{
+		$biditem_id = $this->request->query['biditem'];
+		$biditem = $this->Biditems->get($biditem_id);
+
+		$bidinfo = $this->Bidinfo->find('all', [
+			'conditions' => ['biditem_id' => $biditem_id]
+			])->first();
+
+		$user_id = $this->Auth->user('id');
+
+		if (!($user_id == $biditem->user_id || $user_id == $bidinfo->user_id) || empty($bidinfo)){
+			return $this->redirect(['action' => 'index']);
+		}
+
+		$deliveryinfo = $this->Deliveryinfo->find('all', [
+			'conditions' => ['bidinfo_id' => $bidinfo->id]
+		])->first();
+
+		if (!empty($deliveryinfo)) {
+			$rating = $this->Ratings->find()
+				->where(['reviewer_user_id' => $user_id, 'deliveryinfo_id' => $deliveryinfo->id])
+				->first();
+			$this->set(compact('rating'));
+		}
+
+		if ($biditem->finished == 1) {
+			if ($user_id == $biditem->user_id || $user_id == $bidinfo->user_id) {
+				if ($this->request->is('post')) {
+					if (empty($deliveryinfo)) {
+						$deliveryinfo = $this->Deliveryinfo->newEntity();
+						$deliveryinfo = $this->Deliveryinfo->patchEntity($deliveryinfo, $this->request->getData());
+					} else {
+						$deliveryinfo->is_sent = $this->request->getData('is_sent');
+						$deliveryinfo->is_received = $this->request->getData('is_received');
+					}
+					if ($this->Deliveryinfo->save($deliveryinfo)) {
+						$this->Flash->success('データを保存しました。');
+
+						return $this->redirect(['action' => 'deliveryinfo', '?' => ['biditem' => $biditem_id]]);
+					}
+					$this->Flash->error('データの保存に失敗しました。');
+				}
+				$this->set(compact('deliveryinfo', 'biditem', 'bidinfo'));
+			}
+		}
 	}
 }
