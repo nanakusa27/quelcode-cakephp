@@ -19,7 +19,7 @@
 	<nav class="top-bar titlebar" data-topbar role="navigation">
 		<ul class="title-area large-3 medium-4 columns name">
 			<li>
-				<h1><?=$this->Html->link(__('Auction! [' . $authuser['username'] . ']'), ['action' => 'index']) ?></h1>
+				<h1><?=$this->Html->link(__('Auction! [' . $authuser['username'] . ']'), ['controller' => 'auction', 'action' => 'index']) ?></h1>
 			</li>
 		</ul>
 		<div class="top-bar-section">
@@ -36,10 +36,11 @@
 		<nav class="large-2 medium-3 columns sidebar" id="actions-sidebar">
 			<ul class="side-nav">
 				<li class="heading"><?= __('Actions') ?></li>
-				<li><?= $this->Html->link(__('あなたの落札情報'), ['action' => 'home']) ?></li>
-				<li><?= $this->Html->link(__('あなたの出品情報'), ['action' => 'home2']) ?></li>
-				<li><?= $this->Html->link(__('商品を出品する'), ['action' => 'add']) ?></li>
-				<li><?= $this->Html->link(__('商品リストを見る'), ['action' => 'index']) ?></li>
+				<li><?= $this->Html->link(__('あなたの落札情報'), ['controller' => 'auction', 'action' => 'home']) ?></li>
+				<li><?= $this->Html->link(__('あなたの出品情報'), ['controller' => 'auction', 'action' => 'home2']) ?></li>
+				<li><?= $this->Html->link(__('あなたの評価'), ['controller' => 'Rating', 'action' => 'ratingview']) ?></li>
+				<li><?= $this->Html->link(__('商品を出品する'), ['controller' => 'auction', 'action' => 'add']) ?></li>
+				<li><?= $this->Html->link(__('商品リストを見る'), ['controller' => 'auction', 'action' => 'index']) ?></li>
 			</ul>
 		</nav>
 	</div>

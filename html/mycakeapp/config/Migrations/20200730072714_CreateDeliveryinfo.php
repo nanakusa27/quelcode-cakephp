@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class CreateBidmessages extends AbstractMigration
+class CreateDeliveryinfo extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,19 +12,33 @@ class CreateBidmessages extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('bidmessages');
+        $table = $this->table('deliveryinfo');
         $table->addColumn('bidinfo_id', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,
         ]);
-        $table->addColumn('user_id', 'integer', [
+        $table->addColumn('destination', 'string', [
             'default' => null,
-            'limit' => 11,
+            'limit' => 1000,
             'null' => false,
         ]);
-        $table->addColumn('message', 'text', [
+        $table->addColumn('receiver_name', 'string', [
             'default' => null,
+            'limit' => 100,
+            'null' => false,
+        ]);
+        $table->addColumn('receiver_tel', 'string', [
+            'default' => null,
+            'limit' => 20,
+            'null' => false,
+        ]);
+        $table->addColumn('is_sent', 'boolean', [
+            'default' => 0,
+            'null' => false,
+        ]);
+        $table->addColumn('is_received', 'boolean', [
+            'default' => 0,
             'null' => false,
         ]);
         $table->addColumn('created', 'datetime', [
