@@ -127,3 +127,10 @@
   - MYSQL_ROOT_PASSWORD: root
   - MYSQL_USER: docker_db_user
   - MYSQL_PASSWORD: docker_db_user_pass
+
+-vagrant localhost 上での DB 接続情報
+ - DB ホスト: localhost
+ - MYSQL_DATABASE: auction
+ - MYSQL_ROOT_PASSWORD: shika
+ - MYSQL_USER: root
+ - MYSQL_PASSWORD: shika
