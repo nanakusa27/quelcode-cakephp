@@ -38,7 +38,7 @@
 				<li class="heading"><?= __('Actions') ?></li>
 				<li><?= $this->Html->link(__('あなたの落札情報'), ['controller' => 'auction', 'action' => 'home']) ?></li>
 				<li><?= $this->Html->link(__('あなたの出品情報'), ['controller' => 'auction', 'action' => 'home2']) ?></li>
-				<li><?= $this->Html->link(__('あなたの評価'), ['controller' => 'Rating', 'action' => 'ratingview']) ?></li>
+				<li><?= $this->Html->link(__('あなたの評価'), ['controller' => 'Rating', 'action' => 'ratingview', 'user_id' => $authuser['id']]) ?></li>
 				<li><?= $this->Html->link(__('商品を出品する'), ['controller' => 'auction', 'action' => 'add']) ?></li>
 				<li><?= $this->Html->link(__('商品リストを見る'), ['controller' => 'auction', 'action' => 'index']) ?></li>
 			</ul>

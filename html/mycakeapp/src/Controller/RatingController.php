@@ -34,11 +34,7 @@ class RatingController extends AuctionController
      */
     public function ratingview()
     {
-        if ($this->request->is('post')) {
-            $user_id = $this->request->query['user_id'];
-        } else {
-            $user_id = $this->Auth->user('id');
-        }
+        $user_id = $this->request->query['user_id'];
         $username = $this->Users->get($user_id)->username;
 
         $ratings = $this->Ratings->find();
@@ -48,13 +44,31 @@ class RatingController extends AuctionController
             ->where(['target_user_id' => $user_id])
             ->first();
 
+        $mybiditems = $this->Biditems->find()
+        ->select('id')
+        ->where(['user_id' => $user_id])
+        ->extract('id');
+        $items = [];
+        foreach($mybiditems as $item){
+            $items[] = $item;
+        }
+        if (!empty($items)) {
+            $myitems = $items;
+
+            $bidinfo = $this->Bidinfo->find();
+            $total_sold = $this->Bidinfo->find()
+                ->select(["price" => $bidinfo->func()->sum('price')])
+                ->where(['biditem_id IN' => $myitems])
+                ->first();
+        }
+
         $comments = $this->Ratings->find()
             ->select('comment')
             ->where(['target_user_id' => $user_id])
             ->limit(25)
             ->toArray();
 
-        $this->set(compact('rating_avg', 'comments', 'username'));
+        $this->set(compact('rating_avg', 'total_sold', 'comments', 'username'));
     }
 
     /**

@@ -8,6 +8,14 @@
             <td class="rating"><?= h(round($rating_avg->rating_avg, 1)) ?></td>
         <?php endif; ?>
     </tr>
+    <tr>
+        <th scope="row">総売上金額</th>
+        <?php if (empty($total_sold)): ?>
+            <td>0円</td>
+        <?php else: ?>
+            <td><?= ($total_sold->price) ?></td>
+        <?php endif; ?>
+    </tr>
     <?php if (empty($comments)): ?>
         <tr>
             <th scope="row">コメント</th>
