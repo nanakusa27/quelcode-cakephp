@@ -34,11 +34,7 @@ class RatingController extends AuctionController
      */
     public function ratingview()
     {
-        if ($this->request->is('post')) {
-            $user_id = $this->request->query['user_id'];
-        } else {
-            $user_id = $this->Auth->user('id');
-        }
+        $user_id = $this->request->query['user_id'];
         $username = $this->Users->get($user_id)->username;
 
         $ratings = $this->Ratings->find();
