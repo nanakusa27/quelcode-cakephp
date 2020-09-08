@@ -13,7 +13,7 @@
         <?php if (empty($total_sold)): ?>
             <td>0円</td>
         <?php else: ?>
-            <td><?= ($total_sold->price) ?></td>
+            <td><?= ($total_sold->price)."円" ?></td>
         <?php endif; ?>
     </tr>
     <?php if (empty($comments)): ?>
